@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Интерактивный образовательный портал для университетского семинара по ключевым темам веб-инженерии: DNS, HTTP/HTTPS, REST API и Git.">
+  <title>Университетский семинар | Веб-технологии и инженерия</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Индикатор прогресса чтения страницы -->
+  <div class="scroll-progress-container" aria-hidden="true">
+    <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+  </div>
+
+  <!-- Закреплённое верхнее меню (Sticky Header) -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-container">
+      <a href="#hero" class="brand-logo" aria-label="На главную страницу">
+        <span class="logo-icon" aria-hidden="true">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </span>
+        <span class="logo-text">IT<strong>Семинар</strong></span>
+      </a>
+
+      <!-- Кнопка мобильного меню (Гамбургер) -->
+      <button class="nav-toggle" id="navToggle" aria-label="Открыть меню навигации" aria-expanded="false">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+
+      <!-- Основная навигация -->
+      <nav class="main-nav" id="mainNav" aria-label="Главная навигация">
+        <ul class="nav-list">
+          <li><a href="#what-is-it" class="nav-link">Что это?</a></li>
+          <li><a href="#why-it-exists" class="nav-link">Зачем нужен?</a></li>
+          <li><a href="#how-it-works" class="nav-link">Как работает?</a></li>
+          <li><a href="#where-is-it-used" class="nav-link">Где применяется?</a></li>
+          <li><a href="#benefits-limitations" class="nav-link">Плюсы и минусы</a></li>
+          <li><a href="#quick-comparison" class="nav-link">Сравнение</a></li>
+          <li><a href="#test-yourself" class="nav-link">Тест</a></li>
+          <li><a href="#conclusion" class="nav-link">Выводы</a></li>
+        </ul>
+      </nav>
+
+      <!-- Переключатель светлой и тёмной темы -->
+      <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему оформления" title="Сменить тему">
+        <span class="theme-icon light-icon" aria-hidden="true">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </span>
+        <span class="theme-icon dark-icon" aria-hidden="true">
+          <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        </span>
+        <span class="theme-label sr-only">Переключить тему (светлая/тёмная)</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Панель выбора темы семинара (Topic Switcher) -->
+  <div class="topic-switcher-bar" id="topicSwitcherBar">
+    <div class="container topic-switcher-container">
+      <div class="topic-switcher-label">
+        <span class="topic-label-icon" aria-hidden="true">
+          <svg class="svg-icon" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
+        </span>
+        <span>Темы семинара:</span>
+      </div>
+      <div class="topic-pills-list" role="tablist" aria-label="Темы семинара">
+        <button class="topic-pill-btn active" data-topic="dns" role="tab" aria-selected="true" id="tab-dns">
+          <span class="topic-pill-icon" aria-hidden="true">
+            <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></svg>
+          </span>
+          <span>1. DNS (Адресация)</span>
+        </button>
+        <button class="topic-pill-btn" data-topic="http" role="tab" aria-selected="false" id="tab-http">
+          <span class="topic-pill-icon" aria-hidden="true">
+            <svg class="svg-icon" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </span>
+          <span>2. HTTP &amp; HTTPS</span>
+        </button>
+        <button class="topic-pill-btn" data-topic="api" role="tab" aria-selected="false" id="tab-api">
+          <span class="topic-pill-icon" aria-hidden="true">
+            <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </span>
+          <span>3. REST API</span>
+        </button>
+        <button class="topic-pill-btn" data-topic="git" role="tab" aria-selected="false" id="tab-git">
+          <span class="topic-pill-icon" aria-hidden="true">
+            <svg class="svg-icon" viewBox="0 0 24 24"><line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+          </span>
+          <span>4. Git &amp; Контроль версий</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <main class="topic-content-fade" id="topicMainContent">
+    <!-- РАЗДЕЛ 1: ГЛАВНЫЙ ЭКРАН (HERO) -->
+    <section class="hero-section" id="hero">
+      <div class="container hero-container">
+        <div class="hero-badge" id="heroBadge">Материалы университетского семинара</div>
+        <h1 class="hero-title" id="heroTitle">Система доменных имён <span class="highlight-text">(DNS)</span></h1>
+        
+        <p class="hero-purpose" id="heroPurpose">
+          DNS преобразует привычные человеку имена сайтов в числовые IP-адреса компьютеров, позволяя миллиардам людей исследовать интернет без необходимости заучивать длинные ряды цифр.
+        </p>
+
+        <!-- Карточка докладчика -->
+        <!-- ===================================================================
+             МЕСТО ДЛЯ РЕДАКТИРОВАНИЯ: Укажите здесь ваше имя и номер группы!
+             =================================================================== -->
+        <div class="presenter-card">
+          <div class="presenter-item">
+            <span class="presenter-label">Докладчик:</span>
+            <!-- РЕДАКТИРОВАТЬ ЗДЕСЬ -->
+            <span class="presenter-value">[Гусейн Гасанзаде]</span>
+          </div>
+          <div class="presenter-divider" aria-hidden="true"></div>
+          <div class="presenter-item">
+            <span class="presenter-label">Группа:</span>
+            <!-- РЕДАКТИРОВАТЬ ЗДЕСЬ -->
+            <span class="presenter-value">[Группа 602 &bull; Компьютерные науки]</span>
+          </div>
+          <div class="presenter-divider" aria-hidden="true"></div>
+          <div class="presenter-item">
+            <span class="presenter-label">Время чтения:</span>
+            <span class="presenter-value">~5 минут</span>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a href="#what-is-it" class="btn btn-primary">Начать изучение</a>
+          <a href="#test-yourself" class="btn btn-secondary">Пройти интерактивный тест</a>
+        </div>
+
+        <!-- Краткие факты -->
+        <div class="quick-facts-bar" id="quickFactsBar">
+          <!-- Заполняется динамически SVG-иконками из script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ 2: ЧТО ЭТО ТАКОЕ? -->
+    <section class="content-section" id="what-is-it">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-tag" id="whatIsItTag">Определение и концепция</span>
+          <h2 class="section-title" id="whatIsItTitle">Что такое система доменных имён?</h2>
+          <p class="section-summary" id="whatIsItSummary">Почему это важно: Люди мыслят словами и брендами, а сетевое оборудование связывается исключительно через числа.</p>
+        </div>
+
+        <div class="grid grid-2">
+          <!-- Простое определение -->
+          <article class="card card-accent-blue fade-in">
+            <div class="card-icon" id="defIcon" aria-hidden="true"></div>
+            <h3 class="card-title" id="defTitle">Простыми словами</h3>
+            <div id="defContent"></div>
+          </article>
+
+          <!-- Понятная аналогия -->
+          <article class="card card-accent-cyan fade-in">
+            <div class="card-icon" id="analogyIcon" aria-hidden="true"></div>
+            <h3 class="card-title" id="analogyTitle">Аналогия из жизни: Контакты в смартфоне</h3>
+            <div id="analogyContent"></div>
+            <div class="analogy-callout" id="analogyCallout"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ 3: ЗАЧЕМ ОН НУЖЕН? -->
+    <section class="content-section section-alt" id="why-it-exists">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-tag">Проблема и история</span>
+          <h2 class="section-title" id="whyExistsTitle">Почему возникла необходимость в DNS?</h2>
+          <p class="section-summary" id="whyExistsSummary">Почему это важно: Без DNS интернет рухнул бы под собственной тяжестью ещё до наступления 1990-х годов.</p>
+        </div>
+
+        <div class="grid grid-2">
+          <!-- Проблема до появления решения -->
+          <article class="card card-warning fade-in">
+            <div class="card-badge badge-warning" id="beforeBadge">Решение 1970-х годов</div>
+            <h3 class="card-title" id="beforeTitle">Жизнь до DNS: Единственный файл HOSTS.TXT</h3>
+            <ul class="styled-list" id="beforeList"></ul>
+            <p class="card-footer-note" id="beforeNote"></p>
+          </article>
+
+          <!-- Современное решение -->
+          <article class="card card-success fade-in">
+            <div class="card-badge badge-success" id="modernBadge">Современное решение</div>
+            <h3 class="card-title" id="modernTitle">Прорыв DNS: Распределённое делегирование</h3>
+            <ul class="styled-list" id="modernList"></ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ 4: КАК ЭТО РАБОТАЕТ? -->
+    <section class="content-section" id="how-it-works">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-tag">Механизм и архитектура</span>
+          <h2 class="section-title" id="howItWorksTitle">Как устроен процесс DNS-запроса?</h2>
+          <p class="section-summary" id="howItWorksSummary">Почему это важно: Поиск IP-адреса проходит 4 последовательных этапа по глобальной цепочке серверов — обычно менее чем за 50 миллисекунд.</p>
+        </div>
+
+        <!-- 4 Шага работы -->
+        <div class="steps-grid" id="stepsGrid"></div>
+
+        <!-- Интерактивная диаграмма на чистом HTML/CSS -->
+        <div class="diagram-wrapper fade-in">
+          <div class="diagram-header">
+            <h3 class="diagram-title" id="diagramTitle">Наглядная схема: Цепочка разрешения DNS</h3>
+            <p class="diagram-subtitle" id="diagramSubtitle">Нажмите кнопку «Запустить симуляцию», чтобы увидеть движение запроса от клавиатуры до целевого веб-сервера.</p>
+          </div>
+
+          <div class="diagram-canvas" id="dnsDiagramCanvas"></div>
+
+          <!-- Панель управления симуляцией -->
+          <div class="diagram-controls">
+            <button class="btn btn-primary" id="btnSimulateQuery">
+              <span class="btn-icon" aria-hidden="true">
+                <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </span>
+              <span>Запустить симуляцию</span>
+            </button>
+            <div class="simulation-status" id="simulationStatus">Статус: Готов к запуску. Нажмите «Запустить симуляцию».</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ 5: ГДЕ ПРИМЕНЯЕТСЯ? -->
+    <section class="content-section section-alt" id="where-is-it-used">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-tag">Практическое применение</span>
+          <h2 class="section-title" id="appsTitle">Где DNS используется в реальной жизни?</h2>
+          <p class="section-summary" id="appsSummary">Почему это важно: DNS отвечает не только за сайты в браузере — он управляет доставкой почты, видеопотоками и защитой от мошенников.</p>
+        </div>
+
+        <div class="grid grid-2" id="appsGrid"></div>
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ 6: ПЛЮСЫ И МИНУСЫ -->
+    <section class="content-section" id="benefits-limitations">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-tag">Объективный анализ</span>
+          <h2 class="section-title" id="prosConsTitle">Преимущества и ограничения</h2>
+          <p class="section-summary" id="prosConsSummary">Почему это важно: Зрелый инженерный взгляд требует понимать не только достоинства, но и архитектурные компромиссы системы.</p>
+        </div>
+
+        <div class="grid grid-2">
+          <!-- Колонка преимуществ -->
+          <div class="pro-con-column pro-column fade-in">
+            <div class="pro-con-header">
+              <span class="pro-con-icon" aria-hidden="true">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </span>
+              <h3 class="pro-con-title">Ключевые плюсы</h3>
+            </div>
+            <ul class="pro-con-list" id="prosList"></ul>
+          </div>
+
+          <!-- Колонка ограничений -->
+          <div class="pro-con-column con-column fade-in">
+            <div class="pro-con-header">
+              <span class="pro-con-icon" aria-hidden="true">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </span>
+              <h3 class="pro-con-title">Реальные минусы</h3>
+            </div>
+            <ul class="pro-con-list" id="consList"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ 7: СРАВНЕНИЕ -->
+    <section class="content-section section-alt" id="quick-comparison">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-tag">Сравнительный анализ</span>
+          <h2 class="section-title" id="comparisonTitle">Краткое сравнение</h2>
+          <p class="section-summary" id="comparisonSummary">Почему это важно: Сопоставление технологии с альтернативами наглядно объясняет её место в индустрии.</p>
+        </div>
+
+        <!-- Адаптивная таблица -->
+        <div class="table-responsive fade-in" id="comparisonTableContainer"></div>
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ 8: ТЕСТ ДЛЯ САМОПРОВЕРКИ -->
+    <section class="content-section" id="test-yourself">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-tag">Интерактивная проверка</span>
+          <h2 class="section-title">Проверьте себя: Экспресс-тест</h2>
+          <p class="section-summary">Почему это важно: Быстрое тестирование помогает моментально оценить, насколько хорошо усвоены главные идеи семинара.</p>
+        </div>
+
+        <div class="quiz-container fade-in" id="quizContainer">
+          <!-- Метаданные теста -->
+          <div class="quiz-meta-bar">
+            <span class="quiz-progress-text" id="quizProgressText">Вопрос 1 из 5</span>
+            <div class="quiz-score-badge" id="quizLiveScore">Счёт: 0 / 0</div>
+          </div>
+
+          <!-- Карточка активного вопроса -->
+          <div class="quiz-card" id="quizCard">
+            <h3 class="quiz-question-title" id="quizQuestionText">Загрузка вопроса...</h3>
+            
+            <div class="quiz-options-group" id="quizOptionsGroup"></div>
+
+            <!-- Блок с моментальным объяснением ответа -->
+            <div class="quiz-feedback-box hidden" id="quizFeedbackBox" role="region" aria-live="polite">
+              <div class="feedback-indicator" id="feedbackIndicator">Правильно!</div>
+              <p class="feedback-message" id="feedbackMessage">Здесь будет подробное объяснение ответа.</p>
+              <button class="btn btn-primary" id="btnNextQuestion">Следующий вопрос ➔</button>
+            </div>
+          </div>
+
+          <!-- Итоговый экран результатов -->
+          <div class="quiz-results-card hidden" id="quizResultsCard">
+            <div class="results-badge" id="resultsBadge">
+              <!-- SVG трофей из script.js -->
+            </div>
+            <h3 class="results-title">Тест успешно завершён!</h3>
+            <p class="results-score" id="resultsScoreText">Ваш результат: 5 из 5 (100%)</p>
+            <p class="results-description" id="resultsDescription">Превосходный результат!</p>
+            <button class="btn btn-primary" id="btnRestartQuiz">Пройти тест ещё раз</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ 9: ЗАКЛЮЧЕНИЕ -->
+    <section class="content-section section-alt" id="conclusion">
+      <div class="container">
+        <div class="section-header fade-in">
+          <span class="section-tag">Итоги доклада</span>
+          <h2 class="section-title" id="conclusionTitle">Главные выводы</h2>
+          <p class="section-summary" id="conclusionSummary">Почему это важно: Три ключевые мысли, которые стоит вынести с этого семинара.</p>
+        </div>
+
+        <div class="conclusion-cards-grid" id="conclusionGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- РАЗДЕЛ 10: ПОДВАЛ (FOOTER) -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-brand">
+            <span class="logo-icon" aria-hidden="true">
+              <svg class="svg-icon" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            </span>
+            <span class="logo-text">IT<strong>Семинар</strong></span>
+          </div>
+          <p class="footer-tagline">
+            Интерактивный образовательный проект, подготовленный для проведения университетского семинара и совместного обсуждения в студенческой группе.
+          </p>
+          <!-- РЕДАКТИРОВАТЬ ЗДЕСЬ -->
+          <p class="footer-author">
+            Подготовил: <strong>[Гусейн Гасанзаде]</strong><br>
+            Академическая группа: <strong>[Группа 602 &bull; Компьютерные науки]</strong>
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">Первоисточники и стандарты</h4>
+          <ul class="footer-links" id="footerSourcesList"></ul>
+        </div>
+
+        <div class="footer-col">
+          <h4 class="footer-heading">Навигация по разделам</h4>
+          <ul class="footer-links">
+            <li><a href="#what-is-it">Что это такое?</a></li>
+            <li><a href="#why-it-exists">Зачем нужен?</a></li>
+            <li><a href="#how-it-works">Схема работы</a></li>
+            <li><a href="#benefits-limitations">Плюсы и минусы</a></li>
+            <li><a href="#test-yourself">Интерактивный тест</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Университетский семинар. Сайт создан на 100% чистом HTML, CSS и Vanilla JavaScript (без сторонних библиотек и фреймворков).</p>
+        <a href="#hero" class="back-to-top" aria-label="Вернуться к началу страницы">Наверх ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
